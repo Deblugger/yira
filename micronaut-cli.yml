@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: me.deblugger
+testFramework: junit
+sourceLanguage: kotlin
+buildTool: maven
+features: [annotation-api, app-name, data, data-jpa, docker, flyway, h2, http-client, jdbc-hikari, junit, kotlin, kotlin-application, logback, maven, netty-server, readme, security, security-annotations, security-jwt, shade, yaml]
