@@ -42,6 +42,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>io.micronaut</groupId>
       <artifactId>micronaut-inject</artifactId>
       <scope>compile</scope>
@@ -96,7 +101,7 @@
     <dependency>
       <groupId>io.micronaut.sql</groupId>
       <artifactId>micronaut-jdbc-hikari</artifactId>
-      <scope>compile</scope>
+      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>io.micronaut.data</groupId>
@@ -166,6 +171,7 @@
         <configuration>
           <jvmTarget>${jdk.version}</jvmTarget>
           <compilerPlugins>
+            <plugin>jpa</plugin>
             <plugin>all-open</plugin>
           </compilerPlugins>
           <pluginOptions>
@@ -271,6 +277,11 @@
           <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-maven-allopen</artifactId>
+            <version>${kotlinVersion}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-maven-noarg</artifactId>
             <version>${kotlinVersion}</version>
           </dependency>
         </dependencies>
