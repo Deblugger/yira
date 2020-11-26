@@ -1,14 +1,16 @@
-package me.deblugger.project
+package me.deblugger.states
 
 import me.deblugger.converter.StringListConverter
 import javax.persistence.*
 
 @Entity
-@Table(name = "projects")
-data class ProjectEntity (
+@Table(name = "states")
+data class StateEntity (
         @Id
         @GeneratedValue
         var id: Long = 1,
         var name: String,
-        var owner: Long //UserId
+        var projectId: Long //ProjectId
+
+//TODO: Add order
 )

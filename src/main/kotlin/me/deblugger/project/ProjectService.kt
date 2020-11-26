@@ -1,30 +1,46 @@
 package me.deblugger.project
 
 import me.deblugger.configuration.ProjectNotFoundException
+import me.deblugger.states.StateService
 import javax.inject.Singleton
 
 @Singleton
 class ProjectService(
-        private val projectRepository: ProjectRepository
+        private val projectServiceRepository: ProjectServiceRepository,
+        private val stateService: StateService
 ) {
 
-    fun getAll() = projectRepository.findAll()
-
-    fun getById(id: Long) = projectRepository.getById(id) ?: throw ProjectNotFoundException(id)
-
-    fun createProject(name: String, owner: String, states: List<String>): ProjectEntity {
-        val project = ProjectEntity(0, name, owner, states)
-        return projectRepository.save(project)
+    fun getAll(): List<ProjectResponseBody> {
+        return projectServiceRepository.findAll().map { project ->
+            val statesName = stateService.getByProjectId(project.id).map { it.name }
+            project.toResponseBody(statesName)
+        }
     }
 
-    fun updateProject(id: Long, name: String?, states: List<String>?) {
-        val project = getById(id)
-        name?.apply { project.name = name }
-        states?.apply { project.states = states }
+    fun createProject(name: String, owner: Long, states: List<String>): ProjectEntity {
+        return projectServiceRepository.save(ProjectEntity(0, name, owner)).apply {
+            states.forEach {
+                stateService.createState(it, this.id)
+            }
+        }
 
-        projectRepository.update(project)
     }
 
-    fun deleteProject(id: Long) = projectRepository.deleteById(id)
+    fun findById(id: Long): ProjectResponseBody {
+        return projectServiceRepository.getById(id).let {project ->
+            val states = stateService.getByProjectId(project.id).map { it.name }
+            project.toResponseBody(states)
+        }
+    }
+
+    fun updateProject(id: Long, name: String?, owner: Long?) {
+        val project = projectServiceRepository.getById(id)
+        name?.apply { project.name = this }
+        owner?.apply { project.owner = this }
+
+        projectServiceRepository.update(project)
+    }
+
+    fun deleteProject(id: Long) = projectServiceRepository.deleteById(id)
 
 }

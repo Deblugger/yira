@@ -21,7 +21,7 @@ class ProjectRestControllerIntTest {
     @field:Client("/project")
     lateinit var client: RxHttpClient
 
-    private val projectEntity = ProjectEntity(0, "Test", "Test", listOf("Test"))
+    private val projectEntity = ProjectEntity(0, "Test", 1)
 
     @BeforeAll
     fun setup() {

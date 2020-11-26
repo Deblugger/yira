@@ -11,7 +11,7 @@ class ProjectRestController(
     fun getAll() = projectService.getAll()
 
     @Get("/{id}")
-    fun getOne(id: Long) = projectService.getById(id)
+    fun getOne(id: Long) = projectService.findById(id)
 
     @Post
     fun createOne(@Body projectCreationRequestBody: ProjectCreationRequestBody): ProjectEntity {
@@ -20,7 +20,7 @@ class ProjectRestController(
 
     @Put("/{id}")
     fun updateProject(id: Long, @Body projectUpdateRequestBody: ProjectUpdateRequestBody): HttpResponse<Void> {
-        projectService.updateProject(id, projectUpdateRequestBody.name, projectUpdateRequestBody.states)
+        projectService.updateProject(id, projectUpdateRequestBody.name, projectUpdateRequestBody.owner)
         return HttpResponse.noContent()
     }
 
@@ -29,4 +29,8 @@ class ProjectRestController(
         projectService.deleteProject(id)
         return HttpResponse.noContent()
     }
+
+    // TODO: Get by owner
+    // TODO: Get by user allowed
+    // TODO: Invite user
 }
