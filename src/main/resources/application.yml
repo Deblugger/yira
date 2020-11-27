@@ -22,3 +22,8 @@ datasources:
     schema-generate: CREATE_DROP
     dialect: postgres
 jpa.default.properties.hibernate.hbm2ddl.auto: update
+
+hello:
+  value:
+    en: "Hello world from property"
+    es: "Hola mundo desde la propiedad"

@@ -8,5 +8,5 @@ data class ProjectResponseBody(
 )
 
 fun ProjectEntity.toResponseBody(states: List<String>) = ProjectResponseBody(
-        this.id, this.name, this.owner, states
+        this.id!!, this.name, this.owner, states
 )

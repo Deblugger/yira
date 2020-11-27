@@ -1,40 +1,76 @@
 package me.deblugger.project
 
-import io.micronaut.core.type.Argument
-import io.micronaut.http.HttpRequest
-import io.micronaut.http.client.RxHttpClient
-import io.micronaut.http.client.annotation.Client
+import io.micronaut.http.HttpStatus
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
+import me.deblugger.BaseRestIntTest
+import me.deblugger.states.StateRepository
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
 import javax.inject.Inject
 
 // TODO: REST INT TEST
-@MicronautTest
-@Disabled
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class ProjectRestControllerIntTest {
+class ProjectRestControllerIntTest: BaseRestIntTest() {
 
     @Inject
     lateinit var projectRepository: ProjectRepository
 
     @Inject
-    @field:Client("/project")
-    lateinit var client: RxHttpClient
+    lateinit var stateRepository: StateRepository
 
-    private val projectEntity = ProjectEntity(0, "Test", 1)
+    private val projectEntity = ProjectEntity("Test", 1)
 
-    @BeforeAll
+    @BeforeEach
     fun setup() {
-        projectRepository.save(projectEntity)
+        projectRepository.deleteAll()
+        stateRepository.deleteAll()
     }
 
     @Test
     fun `should get all projects`() {
+        projectRepository.save(projectEntity)
         val allProjects = projectRepository.findAll()
-        val request = HttpRequest.GET<Any>("/")
+        assertThat(allProjects.size).isEqualTo(1)
+        val project = allProjects[0]
 
-        val result = client.toBlocking().exchange<Any, List<ProjectEntity>>(request, Argument.listOf(ProjectEntity::class.java)).body()
-        Assertions.assertEquals(result?.size, allProjects.size)
-        Assertions.assertEquals(result?.get(0)?.name, allProjects[0].name)
+        val result = doGet(HttpStatus.OK, "/projects")
+
+        assertThat(result.body().asString()).isEqualToIgnoringWhitespace("""
+            [{
+                "id":${project.id},
+                "name":"${project.name}",
+                "owner":${project.owner}
+            }]
+        """.trimIndent())
+    }
+
+    @Test
+    fun `should create a project with states`() {
+        var allProjects = projectRepository.findAll()
+        assertThat(allProjects.size).isEqualTo(0)
+
+        val projectCreationRequestBody = ProjectCreationRequestBody("test", 1, listOf("state1", "state2"))
+        val result = doPost(HttpStatus.CREATED, "/projects", projectCreationRequestBody)
+
+        allProjects = projectRepository.findAll()
+        assertThat(allProjects.size).isEqualTo(1)
+
+        val savedProject = allProjects[0]
+        assertThat(savedProject.name).isEqualTo("test")
+        assertThat(savedProject.owner).isEqualTo(1)
+
+        val allStates = stateRepository.findByProjectId(savedProject.id!!)
+        with(allStates) {
+            assertThat(this.size).isEqualTo(2)
+            assertThat(this[0].name).isEqualTo("state1")
+            assertThat(this[1].name).isEqualTo("state2")
+        }
+
+        assertThat(result.body().asString()).isEqualToIgnoringWhitespace("""
+            {
+                "name":"${projectCreationRequestBody.name}",
+                "owner":${projectCreationRequestBody.owner},
+                "id":${savedProject.id}
+            }
+        """.trimIndent())
     }
 }

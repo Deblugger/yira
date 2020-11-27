@@ -1,6 +1,5 @@
 package me.deblugger.project
 
-import me.deblugger.configuration.ProjectNotFoundException
 import me.deblugger.states.StateService
 import javax.inject.Singleton
 
@@ -11,14 +10,15 @@ class ProjectService(
 ) {
 
     fun getAll(): List<ProjectResponseBody> {
-        return projectServiceRepository.findAll().map { project ->
-            val statesName = stateService.getByProjectId(project.id).map { it.name }
+        val findAll = projectServiceRepository.findAll()
+        return findAll.map { project ->
+            val statesName = stateService.getByProjectId(project.id!!).map { it.name }
             project.toResponseBody(statesName)
         }
     }
 
     fun createProject(name: String, owner: Long, states: List<String>): ProjectEntity {
-        return projectServiceRepository.save(ProjectEntity(0, name, owner)).apply {
+        return projectServiceRepository.save(ProjectEntity(name, owner)).apply {
             states.forEach {
                 stateService.createState(it, this.id)
             }
@@ -28,7 +28,7 @@ class ProjectService(
 
     fun findById(id: Long): ProjectResponseBody {
         return projectServiceRepository.getById(id).let {project ->
-            val states = stateService.getByProjectId(project.id).map { it.name }
+            val states = stateService.getByProjectId(project.id!!).map { it.name }
             project.toResponseBody(states)
         }
     }
