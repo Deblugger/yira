@@ -124,11 +124,6 @@
       <scope>runtime</scope>
     </dependency>
     <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
       <groupId>com.fasterxml.jackson.module</groupId>
       <artifactId>jackson-module-kotlin</artifactId>
       <scope>runtime</scope>
@@ -148,6 +143,20 @@
       <artifactId>micronaut-test-junit5</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <version>4.3.2</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.18.1</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>

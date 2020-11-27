@@ -3,7 +3,7 @@ package me.deblugger.project
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.*
 
-@Controller("projects")
+@Controller("/projects")
 class ProjectRestController(
         private val projectService: ProjectService
 ) {
@@ -14,8 +14,9 @@ class ProjectRestController(
     fun getOne(id: Long) = projectService.findById(id)
 
     @Post
-    fun createOne(@Body projectCreationRequestBody: ProjectCreationRequestBody): ProjectEntity {
-        return projectService.createProject(projectCreationRequestBody.name, projectCreationRequestBody.owner, projectCreationRequestBody.states)
+    fun createOne(@Body projectCreationRequestBody: ProjectCreationRequestBody): HttpResponse<ProjectEntity> {
+        val createdProject = projectService.createProject(projectCreationRequestBody.name, projectCreationRequestBody.owner, projectCreationRequestBody.states)
+        return HttpResponse.created(createdProject)
     }
 
     @Put("/{id}")
