@@ -8,4 +8,6 @@ interface ProjectRepository: JpaRepository<ProjectEntity, Long> {
     fun getById(id: Long): ProjectEntity? {
         return findById(id).orElse(null)
     }
+
+    fun findByNameAndOwner(name: String, owner: Long): ProjectEntity?
 }

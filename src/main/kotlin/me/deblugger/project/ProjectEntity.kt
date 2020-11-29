@@ -10,5 +10,5 @@ data class ProjectEntity (
 ) {
         @Id
         @GeneratedValue
-        var id: Long? = null
+        var id: Long = 0
 }

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.TestInstance
 import javax.inject.Inject
 
-@MicronautTest
+@MicronautTest(transactional = false)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 abstract class BaseRestIntTest {
 
@@ -46,5 +46,23 @@ abstract class BaseRestIntTest {
                 .statusCode(expectedHttpStatus.code)
                 .contentType(ContentType.JSON)
                 .extract()
+    }
+
+    fun doPut(expectedHttpStatus: HttpStatus, path: String, body: Any, vararg pathParameters: Any): ExtractableResponse<Response> {
+        return RestAssured.given()
+                .body(body)
+                .`when`()
+                .put(path, *pathParameters)
+                .then()
+                .statusCode(expectedHttpStatus.code)
+                .extract()
+    }
+
+    fun doDelete(expectedHttpStatus: HttpStatus, path: String, vararg pathParameters: Any): ExtractableResponse<Response> {
+        return RestAssured.given()
+                .`when`()
+                .delete(path, *pathParameters)
+                .then()
+                .statusCode(expectedHttpStatus.code).extract()
     }
 }
