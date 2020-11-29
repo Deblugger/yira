@@ -1,22 +1,5 @@
-## Feature jdbc-hikari documentation
+## How to start
 
-- [Micronaut Hikari JDBC Connection Pool documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/index.html#jdbc)
-
-## Feature security documentation
-
-- [Micronaut Micronaut Security documentation](https://micronaut-projects.github.io/micronaut-security/latest/guide/index.html)
-
-## Feature security-jwt documentation
-
-- [Micronaut Micronaut Security JWT documentation](https://micronaut-projects.github.io/micronaut-security/latest/guide/index.html)
-
-## Feature http-client documentation
-
-- [Micronaut Micronaut HTTP Client documentation](https://docs.micronaut.io/latest/guide/index.html#httpClient)
-
-## Feature flyway documentation
-
-- [Micronaut Flyway Database Migration documentation](https://micronaut-projects.github.io/micronaut-flyway/latest/guide/index.html)
-
-- [https://flywaydb.org/](https://flywaydb.org/)
-
+In order to run you need to have installed docker and run `start-postgres.sh`.
+Also, if you want to run the vue.js server you have to get npm and run in `./frontend` folder
+`npm run serve`. 
