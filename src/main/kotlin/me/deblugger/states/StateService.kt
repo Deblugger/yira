@@ -9,14 +9,14 @@ class StateService (
         private val projectServiceRepository: ProjectServiceRepository
 ){
 
-    fun createState(name: String, projectId: Long?): StateEntity {
-        val state = StateEntity(0, name, projectId!!)
+    fun createState(name: String, projectId: Long): StateEntity {
+        val state = StateEntity(name, projectId)
         return stateServiceRepository.save(state)
     }
 
     fun getByProjectId(projectId: Long): List<StateEntity> {
         val project = projectServiceRepository.getById(projectId)
-        return stateServiceRepository.findByProjectId(project.id!!)
+        return stateServiceRepository.findByProjectId(project.id)
     }
 
     fun updateState(stateId: Long, name: String) {

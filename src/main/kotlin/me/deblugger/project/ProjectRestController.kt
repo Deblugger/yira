@@ -8,13 +8,13 @@ class ProjectRestController(
         private val projectService: ProjectService
 ) {
     @Get
-    fun getAll() = projectService.getAll()
+    fun getProjects() = projectService.getAll()
 
     @Get("/{id}")
-    fun getOne(id: Long) = projectService.findById(id)
+    fun getProjectById(id: Long) = projectService.findById(id)
 
     @Post
-    fun createOne(@Body projectCreationRequestBody: ProjectCreationRequestBody): HttpResponse<ProjectEntity> {
+    fun createProject(@Body projectCreationRequestBody: ProjectCreationRequestBody): HttpResponse<ProjectEntity> {
         val createdProject = projectService.createProject(projectCreationRequestBody.name, projectCreationRequestBody.owner, projectCreationRequestBody.states)
         return HttpResponse.created(createdProject)
     }

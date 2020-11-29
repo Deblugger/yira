@@ -16,4 +16,6 @@ class ProjectServiceRepository(
     fun update(projectEntity: ProjectEntity) = projectRepository.update(projectEntity)
 
     fun deleteById(id: Long) = projectRepository.deleteById(id)
+
+    fun getByNameAndOwner(name: String, owner: Long) = projectRepository.findByNameAndOwner(name, owner)
 }
