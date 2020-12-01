@@ -6,9 +6,8 @@ import javax.persistence.*
 @Table(name = "states")
 data class StateEntity (
         var name: String,
-        var projectId: Long //ProjectId
-
-//TODO: Add order
+        var projectId: Long, //ProjectId
+        var position: Long
 ) {
         @Id
         @GeneratedValue

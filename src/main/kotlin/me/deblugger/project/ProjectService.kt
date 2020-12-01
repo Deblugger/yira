@@ -1,6 +1,7 @@
 package me.deblugger.project
 
 import me.deblugger.configuration.ProjectAlreadyExistsException
+import me.deblugger.states.StateOrderedCreationRequestBody
 import me.deblugger.states.StateService
 import javax.inject.Singleton
 
@@ -18,14 +19,14 @@ class ProjectService(
         }
     }
 
-    fun createProject(name: String, owner: Long, states: List<String>): ProjectEntity {
+    fun createProject(name: String, owner: Long, states: List<StateOrderedCreationRequestBody>): ProjectEntity {
         projectServiceRepository.getByNameAndOwner(name, owner)?.run {
             throw ProjectAlreadyExistsException(this.name, this.owner)
         }
 
         return projectServiceRepository.save(ProjectEntity(name, owner)).apply {
             states.forEach {
-                stateService.createState(it, this.id)
+                stateService.createState(it.name, this.id, it.position)
             }
         }
 

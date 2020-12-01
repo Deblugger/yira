@@ -31,7 +31,6 @@ export default {
 </script>
 
 <style>
-
   .project-column {
     border-left: 1px solid rgba(0,0,0,0.12);
     min-height: 90vh

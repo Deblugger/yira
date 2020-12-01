@@ -27,6 +27,6 @@ class StateRestController(
 
     @Post
     fun createState(@Body stateCreationRequestBody: StateCreationRequestBody): StateEntity {
-        return stateService.createState(stateCreationRequestBody.name, stateCreationRequestBody.projectId)
+        return stateService.createState(stateCreationRequestBody.name, stateCreationRequestBody.projectId, stateCreationRequestBody.position)
     }
 }

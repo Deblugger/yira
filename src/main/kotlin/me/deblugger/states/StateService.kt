@@ -9,8 +9,8 @@ class StateService (
         private val projectServiceRepository: ProjectServiceRepository
 ){
 
-    fun createState(name: String, projectId: Long): StateEntity {
-        val state = StateEntity(name, projectId)
+    fun createState(name: String, projectId: Long, position: Long): StateEntity {
+        val state = StateEntity(name, projectId, position)
         return stateServiceRepository.save(state)
     }
 

@@ -5,6 +5,7 @@ import me.deblugger.BaseRestIntTest
 import me.deblugger.states.StateRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
+import me.deblugger.states.StateOrderedCreationRequestBody
 import javax.inject.Inject
 
 class ProjectRestControllerIntTest: BaseRestIntTest() {
@@ -79,7 +80,9 @@ class ProjectRestControllerIntTest: BaseRestIntTest() {
         var allProjects = projectRepository.findAll()
         assertThat(allProjects.size).isEqualTo(0)
 
-        val projectCreationRequestBody = ProjectCreationRequestBody("test", 1, listOf("state1", "state2"))
+        val state1 = StateOrderedCreationRequestBody("state1", 0)
+        val state2 = StateOrderedCreationRequestBody("state2", 1)
+        val projectCreationRequestBody = ProjectCreationRequestBody("test", 1, listOf(state1, state2))
         val result = doPost(HttpStatus.CREATED, "/projects", projectCreationRequestBody)
 
         allProjects = projectRepository.findAll()

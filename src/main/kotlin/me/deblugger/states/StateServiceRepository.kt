@@ -7,7 +7,7 @@ import javax.inject.Singleton
 class StateServiceRepository(
         private val stateRepository: StateRepository
 ) {
-    fun save(stateEntity: StateEntity) = stateRepository.save(stateEntity)
+    fun save(stateEntity: StateEntity) = stateRepository.update(stateEntity)
 
     fun findByProjectId(projectId: Long) = stateRepository.findByProjectId(projectId)
 

@@ -19,6 +19,7 @@
             <router-link :to="'/project/'+item.id">{{item.name}}</router-link>
           </md-list-item>
         </md-list>
+        <md-button to="/new-project" class="md-raised md-primary"><md-icon>add</md-icon> New project</md-button>
       </md-app-drawer>
       <md-app-content>
         <router-view :key="$route.fullPath"/>
