@@ -119,6 +119,11 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
+      <groupId>io.swagger.core.v3</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <scope>runtime</scope>
@@ -218,8 +223,14 @@
                   <artifactId>micronaut-security-annotations</artifactId>
                   <version>${micronaut.security.version}</version>
                 </annotationProcessorPath>
+                <annotationProcessorPath>
+                  <groupId>io.micronaut.openapi</groupId>
+                  <artifactId>micronaut-openapi</artifactId>
+                  <version>2.2.0</version>
+                </annotationProcessorPath>
               </annotationProcessorPaths>
               <annotationProcessorArgs>
+                <annotationProcessorArg>micronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop</annotationProcessorArg>
                 <annotationProcessorArg>micronaut.processing.group=me.deblugger</annotationProcessorArg>
                 <annotationProcessorArg>micronaut.processing.module=yira</annotationProcessorArg>
               </annotationProcessorArgs>
