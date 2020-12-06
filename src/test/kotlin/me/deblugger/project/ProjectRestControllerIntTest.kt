@@ -105,7 +105,7 @@ class ProjectRestControllerIntTest: BaseRestIntTest() {
             "owner":${projectCreationRequestBody.owner},
             "id":${savedProject.id}
         }
-    """.trimIndent())
+        """.trimIndent())
     }
 
     @Test
@@ -162,7 +162,7 @@ class ProjectRestControllerIntTest: BaseRestIntTest() {
 
         val projectUpdateRequestBody = ProjectUpdateRequestBody("UPDATED PROJECT", 999)
 
-        doPut(HttpStatus.NO_CONTENT, "/projects/{id}", projectUpdateRequestBody ,projectToUpdate.id)
+        val result = doPut(HttpStatus.OK, "/projects/{id}", projectUpdateRequestBody ,projectToUpdate.id)
 
         val allProjectsAfterPut = projectRepository.findAll()
         assertThat(allProjectsAfterPut.size).isEqualTo(1)
@@ -171,6 +171,14 @@ class ProjectRestControllerIntTest: BaseRestIntTest() {
         assertThat(projectUpdated.name).isEqualTo("UPDATED PROJECT")
         assertThat(projectUpdated.owner).isEqualTo(999)
         assertThat(projectUpdated.id).isEqualTo(projectToUpdate.id)
+
+        assertThat(result.body().asString()).isEqualToIgnoringWhitespace("""
+        {
+            "name":"${projectUpdateRequestBody.name}",
+            "owner":${projectUpdateRequestBody.owner},
+            "id":${projectToUpdate.id}
+        }
+        """.trimIndent())
     }
 
     @Test

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h2>{{this.projectData.name}}</h2>
+    <h2>{{this.projectData.name}} <md-button :to="'/new-project/' + this.projectId" class="md-accent">Edit</md-button></h2>
+   
     <div class="md-layout md-gutter">
       <div v-for="projectColumn in projectColumns" class="md-layout-item project-column" :key="projectColumn">
         {{projectColumn}}
@@ -8,7 +9,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import axios from 'axios'
 

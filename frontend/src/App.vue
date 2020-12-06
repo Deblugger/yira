@@ -22,14 +22,14 @@
         <md-button to="/new-project" class="md-raised md-primary"><md-icon>add</md-icon> New project</md-button>
       </md-app-drawer>
       <md-app-content>
-        <router-view :key="$route.fullPath"/>
+        <router-view :key="$route.fullPath" v-on:project-created="onProjectCreated" v-on:project-updated="onProjectUpdated" v-on:project-deleted="onProjectDeleted"/>
       </md-app-content>
-    </md-app>    
+    </md-app>
   </div>
 </template>
 
 <style>
-.md-app {
+.md-app { 
   max-height: 400px;
   border: 1px solid rgba(#000, .12);
   min-height: 100vh;
@@ -43,11 +43,32 @@ export default {
   name: "App",
   data() {
     return {
-      "projects": []
+      "projects": [],
+      "showDialog": false,
+      "selectedProjectId": 0
     }
   },
   mounted() {
     axios.get("http://localhost:8080/projects").then(res => this.projects = res.data)
+  },
+  methods: {
+    onProjectCreated(createdProject) {
+      this.projects.push(createdProject);
+    },
+    onProjectUpdated(updtaedProject) {
+      this.projects.forEach(project => {
+        if(project.id == updtaedProject.id) {
+          project.name = updtaedProject.name;
+        }
+      })
+    },
+    onProjectDeleted(projectId) {
+      this.projects.forEach((project, index) => {
+        if(project.id == projectId) {
+          this.projects.splice(index, 1);
+        }
+      })
+    }
   },
 }
 </script>

@@ -39,14 +39,16 @@ class ProjectService(
         }
     }
 
-    fun updateProject(id: Long, name: String?, owner: Long?) {
+    fun updateProject(id: Long, name: String?, owner: Long?): ProjectEntity {
         val project = projectServiceRepository.getById(id)
         name?.apply { project.name = this }
         owner?.apply { project.owner = this }
 
-        projectServiceRepository.update(project)
+        return projectServiceRepository.update(project)
     }
 
-    fun deleteProject(id: Long) = projectServiceRepository.deleteById(id)
+    fun deleteProject(id: Long) = projectServiceRepository.deleteById(id).also {
+        stateService.deleteByProjectId(id)
+    }
 
 }

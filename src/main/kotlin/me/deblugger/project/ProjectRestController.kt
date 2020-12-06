@@ -20,9 +20,9 @@ class ProjectRestController(
     }
 
     @Put("/{id}")
-    fun updateProject(id: Long, @Body projectUpdateRequestBody: ProjectUpdateRequestBody): HttpResponse<Void> {
-        projectService.updateProject(id, projectUpdateRequestBody.name, projectUpdateRequestBody.owner)
-        return HttpResponse.noContent()
+    fun updateProject(id: Long, @Body projectUpdateRequestBody: ProjectUpdateRequestBody): HttpResponse<ProjectEntity> {
+        val updatedProject = projectService.updateProject(id, projectUpdateRequestBody.name, projectUpdateRequestBody.owner)
+        return HttpResponse.ok(updatedProject)
     }
 
     @Delete("/{id}")

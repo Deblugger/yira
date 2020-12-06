@@ -26,4 +26,6 @@ class StateService (
     }
 
     fun deleteState(stateId: Long) = stateServiceRepository.deleteById(stateId)
+
+    fun deleteByProjectId(projectId: Long) = stateServiceRepository.deleteByProjectId(projectId)
 }

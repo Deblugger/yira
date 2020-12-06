@@ -10,4 +10,6 @@ interface StateRepository: JpaRepository<StateEntity, Long> {
     }
 
     fun findByProjectId(projectId: Long): List<StateEntity>
+
+    fun deleteByProjectId(projectId: Long): Long
 }

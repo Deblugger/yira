@@ -16,4 +16,6 @@ class StateServiceRepository(
     fun update(stateEntity: StateEntity) = stateRepository.update(stateEntity)
 
     fun deleteById(id: Long) = stateRepository.deleteById(id)
+
+    fun deleteByProjectId(projectId: Long) = stateRepository.deleteByProjectId(projectId)
 }
