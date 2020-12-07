@@ -1,47 +1,62 @@
 <template>
   <div>
-    <form novalidate class="md-layout">
-      <md-button class="md-primary" v-if="this.projectId === undefined" @click="saveProject" :disabled="sending">Create project</md-button>
-      <md-button class="md-primary" v-if="this.projectId !== undefined" @click="updateProject" :disabled="sending">Update project</md-button>
-      <md-button class="md-accent" v-if="this.projectId !== undefined" @click="showDialog = true">Remove</md-button>
-      <md-field>
-        <label for="project-name">Project Name</label>
-        <md-input name="project-name" id="project-name" v-model="projectName" :disabled="sending" />
-      </md-field>
-      <md-field v-if="this.projectId === undefined">
-        <label for="state-name">New state</label>
-        <md-input name="state-name" id="state-name" v-model="newState" :disabled="sending" />
-        <md-button @click="addNewState()" class="md-primary md-raised">Add</md-button>
-      </md-field>
+    <b-form>
+      <b-button class="mr-1" variant="success" v-if="this.projectId === undefined" @click="saveProject">Create project</b-button>
+      <b-button class="mr-1" variant="primary" v-if="this.projectId !== undefined" @click="updateProject">Update project</b-button>
+      <b-button class="mr-1" variant="danger" v-if="this.projectId !== undefined" @click="showDialog = true">Remove</b-button>
+      <b-form-group
+        label="Project Name"
+        label-for="project-name"
+        description="The project name."
+      >
+        <b-form-input
+          id="project-name"
+          v-model="projectName"
+          type="text"
+          required
+        ></b-form-input>
+      </b-form-group>
 
+      <b-form-group v-if="this.projectId === undefined"
+        label="New state"
+        label-for="state-name"
+        description="This will be a column for your project tasks."
+      >
+        <b-form-input
+          id="state-name"
+          v-model="newState"
+          type="text"
+        ></b-form-input>
+        <b-button @click="addNewState()" variant="primary">Add</b-button>
+      </b-form-group>
       <draggable v-if="this.projectId === undefined" v-model="states" @start="drag=true" @change="moveElement" @end="drag=false">
-        <md-card v-for="element in states" :key="element.name">
-          <md-card-content>
-            {{element.name}}
-            <md-badge class="md-primary md-square" :md-content="element.position" />
-          </md-card-content>
-          <md-card-actions>
-            <md-button @click="removeState(element)">Remove</md-button>
-          </md-card-actions>
-        </md-card>
+        <div v-for="element in states" :key="element.name">
+          <b-card
+            title="Card Title"
+            style="max-width: 20rem;"
+            class="mb-2"
+          >
+            <b-card-text>
+              {{element.name}} <b-badge>{{element.position}}</b-badge>
+            </b-card-text>
+
+            <b-button variant="danger" @click="removeState(element)">Remove</b-button>
+          </b-card>
+        </div>
       </draggable>
-
-      <md-progress-bar md-mode="indeterminate" v-if="sending" />
-
-      <md-snackbar :md-active.sync="savedSuccesfully">Project created successfully!</md-snackbar>
-    </form>
+    </b-form>
 
     <!-- Delete Project Dialog -->
-    <md-dialog v-if="this.projectId !== undefined" :md-active.sync="showDialog">
-        <md-dialog-title>Hey!</md-dialog-title>
-
+    <b-modal v-if="this.projectId !== undefined" id="removeConfirmationModal" v-model="showDialog" hide-footer>
+      <template #modal-title>
+        Hey!
+      </template>
+      <div class="d-block text-center">
         You're going to delete a whole project, including tasks. Are you sure?
-
-        <md-dialog-actions>
-            <md-button class="md-primary" @click="showDialog = false">No</md-button>
-            <md-button class="md-accent md-raised" @click="deleteProject">Yes</md-button>
-        </md-dialog-actions>
-    </md-dialog>    
+      </div>
+      <b-button class="mt-3" block @click="showDialog = false">No</b-button>
+      <b-button class="mt-3" block @click="deleteProject">Yes</b-button>
+    </b-modal>
   </div>
 </template>
 

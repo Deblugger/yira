@@ -1,30 +1,19 @@
 <template>
   <div id="app">
-    <md-app md-waterfall md-mode="fixed">
-      <md-app-toolbar class="md-primary">
-        <span class="md-title">Yira</span>
-      </md-app-toolbar>
-      <md-app-drawer md-permanent="full">
-        <md-toolbar class="md-transparent" md-elevation="0">
-          Menu
-        </md-toolbar>
-        <md-list>
-          <md-list-item>
-            <router-link to="/">Home</router-link>
-          </md-list-item>
-          <md-list-item style="border-bottom: 1px solid rgba(0,0,0,0.12)">
-            <router-link to="/about">About</router-link>
-          </md-list-item>
-          <md-list-item v-for="item in projects" :key="item.id">
-            <router-link :to="'/project/'+item.id">{{item.name}}</router-link>
-          </md-list-item>
-        </md-list>
-        <md-button to="/new-project" class="md-raised md-primary"><md-icon>add</md-icon> New project</md-button>
-      </md-app-drawer>
-      <md-app-content>
-        <router-view :key="$route.fullPath" v-on:project-created="onProjectCreated" v-on:project-updated="onProjectUpdated" v-on:project-deleted="onProjectDeleted"/>
-      </md-app-content>
-    </md-app>
+    <div>
+      <b-navbar type="dark" variant="dark">
+        <b-navbar-brand to="/">Yira</b-navbar-brand>
+        <b-navbar-nav>
+          <b-nav-item to="/">Home</b-nav-item>
+          <b-nav-item to="/about" style="border-right: 1px grey solid;">About</b-nav-item>
+          <b-nav-item v-for="item in projects" :key="item.id" :to="'/project/'+item.id">{{item.name}}</b-nav-item>          
+        </b-navbar-nav>
+        <b-navbar-nav class="ml-auto">
+            <b-button size="md" class="my-2 my-sm-0" to="/new-project">New project</b-button>
+          </b-navbar-nav>
+      </b-navbar>
+      <router-view style="padding: 25px;" :key="$route.fullPath" v-on:project-created="onProjectCreated" v-on:project-updated="onProjectUpdated" v-on:project-deleted="onProjectDeleted"/>
+    </div>
   </div>
 </template>
 

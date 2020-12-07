@@ -1,12 +1,15 @@
 <template>
   <div>
-    <h2>{{this.projectData.name}} <md-button :to="'/new-project/' + this.projectId" class="md-accent">Edit</md-button></h2>
+    <b-row class="mb-5">
+      <b-col><h2>{{this.projectData.name}}</h2></b-col>
+      <b-col><b-button class="float-right" variant="primary" :to="'/new-project/' + this.projectId">Edit</b-button></b-col>
+    </b-row>
    
-    <div class="md-layout md-gutter">
-      <div v-for="projectColumn in projectColumns" class="md-layout-item project-column" :key="projectColumn">
+    <b-row style="border-right: 1px solid rgba(0,0,0,0.12);">
+      <b-col v-for="projectColumn in projectColumns" class="col-sm project-column" :key="projectColumn">
         {{projectColumn}}
-      </div>
-    </div>
+      </b-col>
+    </b-row>
   </div>
 </template>
 <script>
