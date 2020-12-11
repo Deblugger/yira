@@ -12,7 +12,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.TestInstance
 import javax.inject.Inject
 
-@MicronautTest(transactional = false)
+// TODO: Test Containers to not have to start postgres docker
+@MicronautTest(transactional = false, environments = ["inttest"])
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 abstract class BaseRestIntTest {
 
@@ -35,6 +36,24 @@ abstract class BaseRestIntTest {
                 .then()
                 .statusCode(expectedHttpStatus.code)
                 .contentType(ContentType.JSON).extract()
+    }
+
+    fun doGetWithHeaders(expectedHttpStatus: HttpStatus, path: String, headers: Map<String, String>, vararg pathParameters: Any): ExtractableResponse<Response> {
+        return RestAssured.given().
+        `when`()
+                .headers(headers)
+                .get(path, *pathParameters)
+                .then()
+                .statusCode(expectedHttpStatus.code)
+                .contentType(ContentType.JSON).extract()
+    }
+
+    fun doGetWithNoResponse(expectedHttpStatus: HttpStatus, path: String, vararg pathParameters: Any): ExtractableResponse<Response> {
+        return RestAssured.given().
+        `when`()
+                .get(path, *pathParameters)
+                .then()
+                .statusCode(expectedHttpStatus.code).extract()
     }
 
     fun doPost(expectedHttpStatus: HttpStatus, path: String, body: Any, vararg pathParameters: Any): ExtractableResponse<Response> {

@@ -1,4 +1,4 @@
-package me.deblugger.states
+package me.deblugger.state
 
 import javax.persistence.*
 

@@ -1,17 +1,10 @@
 package me.deblugger.project
 
-import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 //import io.mockk.every
 //import io.mockk.mockk
-import me.deblugger.states.StateEntity
-import me.deblugger.states.StateService
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Disabled
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import javax.inject.Inject
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @MicronautTest(transactional = false)
@@ -21,8 +14,8 @@ class ProjectServiceUnitTest {
     /*@Inject
     lateinit var cut: ProjectService
 
-    @get:MockBean(ProjectServiceRepository::class)
-    val projectServiceRepositoryMock = mockk<ProjectServiceRepository>()
+    @get:MockBean(ProjectRepositoryService::class)
+    val projectServiceRepositoryMock = mockk<ProjectRepositoryService>()
 
     @get:MockBean(StateService::class)
     val stateServiceMock = mockk<StateService>()

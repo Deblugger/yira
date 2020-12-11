@@ -1,10 +1,10 @@
-package me.deblugger.states
+package me.deblugger.state
 
 import me.deblugger.configuration.StateNotFoundException
 import javax.inject.Singleton
 
 @Singleton
-class StateServiceRepository(
+class StateRepositoryService(
         private val stateRepository: StateRepository
 ) {
     fun save(stateEntity: StateEntity) = stateRepository.update(stateEntity)

@@ -1,6 +1,6 @@
 package me.deblugger.project
 
-import me.deblugger.states.StateOrderedCreationRequestBody
+import me.deblugger.state.StateOrderedCreationRequestBody
 
 data class ProjectCreationRequestBody(var name: String, var owner: Long, var states: List<StateOrderedCreationRequestBody>)
 

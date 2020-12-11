@@ -4,7 +4,7 @@ import me.deblugger.configuration.ProjectNotFoundException
 import javax.inject.Singleton
 
 @Singleton
-class ProjectServiceRepository(
+class ProjectRepositoryService(
         private val projectRepository: ProjectRepository
 ) {
     fun getById(id: Long) = projectRepository.getById(id) ?: throw ProjectNotFoundException(id)

@@ -1,4 +1,4 @@
-package me.deblugger.states
+package me.deblugger.state
 
 data class StateCreationRequestBody(val name: String, val position: Long, val projectId: Long)
 

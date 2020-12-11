@@ -1,4 +1,4 @@
-package me.deblugger.states
+package me.deblugger.state
 
 import io.micronaut.data.annotation.Repository
 import io.micronaut.data.jpa.repository.JpaRepository

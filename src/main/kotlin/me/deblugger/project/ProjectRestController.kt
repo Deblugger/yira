@@ -2,7 +2,10 @@ package me.deblugger.project
 
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.*
+import io.micronaut.security.annotation.Secured
+import io.micronaut.security.rules.SecurityRule
 
+@Secured(SecurityRule.IS_AUTHENTICATED)
 @Controller("/projects")
 class ProjectRestController(
         private val projectService: ProjectService
@@ -32,6 +35,5 @@ class ProjectRestController(
     }
 
     // TODO: Get by owner
-    // TODO: Get by user allowed
     // TODO: Invite user
 }

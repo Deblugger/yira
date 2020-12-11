@@ -1,18 +1,18 @@
 package me.deblugger.project
 
 import me.deblugger.configuration.ProjectAlreadyExistsException
-import me.deblugger.states.StateOrderedCreationRequestBody
-import me.deblugger.states.StateService
+import me.deblugger.state.StateOrderedCreationRequestBody
+import me.deblugger.state.StateService
 import javax.inject.Singleton
 
 @Singleton
 class ProjectService(
-        private val projectServiceRepository: ProjectServiceRepository,
+        private val projectRepositoryService: ProjectRepositoryService,
         private val stateService: StateService
 ) {
 
     fun getAll(): List<ProjectResponseBody> {
-        val findAll = projectServiceRepository.findAll()
+        val findAll = projectRepositoryService.findAll()
         return findAll.map { project ->
             val statesName = stateService.getByProjectId(project.id).map { it.name }
             project.toResponseBody(statesName)
@@ -20,11 +20,11 @@ class ProjectService(
     }
 
     fun createProject(name: String, owner: Long, states: List<StateOrderedCreationRequestBody>): ProjectEntity {
-        projectServiceRepository.getByNameAndOwner(name, owner)?.run {
+        projectRepositoryService.getByNameAndOwner(name, owner)?.run {
             throw ProjectAlreadyExistsException(this.name, this.owner)
         }
 
-        return projectServiceRepository.save(ProjectEntity(name, owner)).apply {
+        return projectRepositoryService.save(ProjectEntity(name, owner)).apply {
             states.forEach {
                 stateService.createState(it.name, this.id, it.position)
             }
@@ -33,21 +33,21 @@ class ProjectService(
     }
 
     fun findById(id: Long): ProjectResponseBody {
-        return projectServiceRepository.getById(id).let {project ->
+        return projectRepositoryService.getById(id).let { project ->
             val states = stateService.getByProjectId(project.id).map { it.name }
             project.toResponseBody(states)
         }
     }
 
     fun updateProject(id: Long, name: String?, owner: Long?): ProjectEntity {
-        val project = projectServiceRepository.getById(id)
+        val project = projectRepositoryService.getById(id)
         name?.apply { project.name = this }
         owner?.apply { project.owner = this }
 
-        return projectServiceRepository.update(project)
+        return projectRepositoryService.update(project)
     }
 
-    fun deleteProject(id: Long) = projectServiceRepository.deleteById(id).also {
+    fun deleteProject(id: Long) = projectRepositoryService.deleteById(id).also {
         stateService.deleteByProjectId(id)
     }
 

@@ -2,10 +2,10 @@ package me.deblugger.project
 
 import io.micronaut.http.HttpStatus
 import me.deblugger.BaseRestIntTest
-import me.deblugger.states.StateRepository
+import me.deblugger.state.StateRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
-import me.deblugger.states.StateOrderedCreationRequestBody
+import me.deblugger.state.StateOrderedCreationRequestBody
 import javax.inject.Inject
 
 class ProjectRestControllerIntTest: BaseRestIntTest() {
@@ -121,7 +121,7 @@ class ProjectRestControllerIntTest: BaseRestIntTest() {
         assertThat(result.body().asString()).isEqualToIgnoringWhitespace("""
             [
                 "Project already exists.",
-                "A project with name: ${projectCreationRequestBody.name}, and owner: ${projectCreationRequestBody.owner} already exits."
+                "A project with name: ${projectCreationRequestBody.name}, and owner: ${projectCreationRequestBody.owner} already exists."
             ]
         """.trimIndent())
 
